@@ -1,17 +1,33 @@
 import './style.css';
 import { loadConfig, loadDayState } from './data/store.js';
 import { createRoutineView } from './views/routine.js';
+import { createConfigView } from './views/config.js';
 
 const config = loadConfig();
 const dayState = loadDayState();
+const root = document.querySelector('#app');
 
-const view = createRoutineView({ config, dayState });
-document.querySelector('#app').appendChild(view.el);
+let view = null;
+
+function showRoutine() {
+  root.replaceChildren();
+  view = createRoutineView({ config, dayState, onOpenConfig: showConfig });
+  root.appendChild(view.el);
+}
+
+function showConfig() {
+  root.replaceChildren();
+  view = null; // config view has no per-frame updates
+  const cfgView = createConfigView({ config, onClose: showRoutine });
+  root.appendChild(cfgView.el);
+}
+
+showRoutine();
 
 // Single rAF loop drives every timer; absolute timestamps keep it
 // accurate across reloads and tab switches.
 function tick() {
-  view.update(Date.now());
+  if (view) view.update(Date.now());
   requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);

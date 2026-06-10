@@ -11,6 +11,29 @@
     "withinTime": "Időben haladsz",
     "overTime": "Nyugodtan, a saját tempódban"
   },
+  "config": {
+    "title": "Beállítások",
+    "back": "Vissza",
+    "children": "Gyerekek",
+    "tasks": "Feladatok",
+    "data": "Adatok",
+    "addChild": "+ Gyerek hozzáadása",
+    "addTask": "+ Feladat hozzáadása",
+    "name": "Név",
+    "label": "Megnevezés",
+    "durationMin": "Keretidő (perc)",
+    "delete": "Törlés",
+    "moveUp": "▲",
+    "moveDown": "▼",
+    "iconSearch": "Keresés…",
+    "export": "Mentés fájlba",
+    "import": "Betöltés fájlból",
+    "reset": "Visszaállítás demóra",
+    "resetConfirm": "Biztosan visszaállítod az alap demó beállításokat? Minden módosítás elvész.",
+    "deleteConfirm": "Biztosan törlöd?",
+    "newChildName": "Új gyerek",
+    "newTaskLabel": "Új feladat"
+  },
   "demo": {
     "periodName": "Hétköznap reggel",
     "children": {

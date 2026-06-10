@@ -2,11 +2,11 @@ import { createChildColumn } from '../components/childColumn.js';
 import { createSummaryBar } from '../components/summaryBar.js';
 
 /** Main routine view: top bar, child columns, bottom summary. */
-export function createRoutineView({ config, dayState }) {
+export function createRoutineView({ config, dayState, onOpenConfig }) {
   const el = document.createElement('div');
   el.className = 'routine';
 
-  // --- top bar: period name + clock ---
+  // --- top bar: period name + clock + parent settings ---
   const top = document.createElement('header');
   top.className = 'routine__top';
   const periodName = document.createElement('span');
@@ -14,8 +14,15 @@ export function createRoutineView({ config, dayState }) {
   periodName.textContent = config.period.name;
   const clock = document.createElement('span');
   clock.className = 'routine__clock';
+  const gear = document.createElement('button');
+  gear.type = 'button';
+  gear.className = 'routine__gear';
+  gear.textContent = '⚙';
+  gear.setAttribute('aria-label', 'Beállítások');
+  gear.addEventListener('click', onOpenConfig);
   top.appendChild(periodName);
   top.appendChild(clock);
+  top.appendChild(gear);
   el.appendChild(top);
 
   // --- child columns ---
