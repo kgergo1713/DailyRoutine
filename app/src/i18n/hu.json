@@ -1,0 +1,31 @@
+{
+  "app": {
+    "title": "Reggeli Rutin"
+  },
+  "routine": {
+    "noPeriod": "Most nincs teendő — pihenj egy kicsit! 🌤",
+    "allDone": "Minden kész! Ügyes vagy!",
+    "progress": "{done} / {total} kész"
+  },
+  "status": {
+    "withinTime": "Időben haladsz",
+    "overTime": "Nyugodtan, a saját tempódban"
+  },
+  "demo": {
+    "periodName": "Hétköznap reggel",
+    "children": {
+      "peti": "Peti",
+      "balint": "Bálint",
+      "sari": "Sári",
+      "adam": "Ádám"
+    },
+    "tasks": {
+      "wakeup": "Felkelés",
+      "dress": "Öltözés",
+      "breakfast": "Reggeli",
+      "teeth": "Fogmosás",
+      "shoes": "Cipő",
+      "backpack": "Bepakolás"
+    }
+  }
+}
