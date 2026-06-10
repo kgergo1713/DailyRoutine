@@ -8,7 +8,7 @@ import { t } from '../i18n/index.js';
  * Re-selects the active period automatically; shows a calm
  * "nothing to do now" screen when no period matches.
  */
-export function createRoutineView({ config, dayState, onOpenConfig }) {
+export function createRoutineView({ config, dayState, onOpenConfig, onOpenStats }) {
   const el = document.createElement('div');
   el.className = 'routine';
 
@@ -19,6 +19,12 @@ export function createRoutineView({ config, dayState, onOpenConfig }) {
   periodName.className = 'routine__period';
   const clock = document.createElement('span');
   clock.className = 'routine__clock';
+  const stars = document.createElement('button');
+  stars.type = 'button';
+  stars.className = 'routine__gear';
+  stars.textContent = '★';
+  stars.setAttribute('aria-label', 'Statisztika');
+  stars.addEventListener('click', onOpenStats);
   const gear = document.createElement('button');
   gear.type = 'button';
   gear.className = 'routine__gear';
@@ -27,6 +33,7 @@ export function createRoutineView({ config, dayState, onOpenConfig }) {
   gear.addEventListener('click', onOpenConfig);
   top.appendChild(periodName);
   top.appendChild(clock);
+  top.appendChild(stars);
   top.appendChild(gear);
   el.appendChild(top);
 

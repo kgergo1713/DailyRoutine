@@ -473,6 +473,93 @@ html, body {
   font-weight: 600;
 }
 
+/* ---------- stats view ---------- */
+.stats {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats__ranges {
+  display: flex;
+  gap: 8px;
+  padding: 0 22px 12px;
+}
+
+.stats__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 22px 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  align-content: start;
+}
+
+.stats__card {
+  background: var(--c-surface);
+  border-radius: var(--radius);
+  border-top: 6px solid var(--c-child, #ccc);
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stats__card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stats__card-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--c-child, var(--c-ink));
+}
+.stats__marker { width: 40px; height: 40px; }
+
+.stats__stars {
+  margin-left: auto;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+}
+
+.stats__numbers {
+  margin: 8px 0 0;
+  color: var(--c-ink-soft);
+  font-size: 0.95rem;
+}
+
+.stats__chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 90px;
+  margin-top: 12px;
+}
+
+.stats__bar-wrap {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2px;
+}
+
+.stats__bar {
+  width: 100%;
+  max-width: 26px;
+  background: var(--c-child, var(--c-running));
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+  opacity: 0.85;
+}
+
+.stats__bar-label {
+  font-size: 0.65rem;
+  color: var(--c-ink-soft);
+}
+
 .btn {
   appearance: none;
   font: inherit;

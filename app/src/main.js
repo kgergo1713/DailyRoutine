@@ -2,6 +2,7 @@ import './style.css';
 import { loadConfig, loadDayState } from './data/store.js';
 import { createRoutineView } from './views/routine.js';
 import { createConfigView } from './views/config.js';
+import { createStatsView } from './views/stats.js';
 
 const config = loadConfig();
 const dayState = loadDayState();
@@ -11,7 +12,7 @@ let view = null;
 
 function showRoutine() {
   root.replaceChildren();
-  view = createRoutineView({ config, dayState, onOpenConfig: showConfig });
+  view = createRoutineView({ config, dayState, onOpenConfig: showConfig, onOpenStats: showStats });
   root.appendChild(view.el);
 }
 
@@ -20,6 +21,13 @@ function showConfig() {
   view = null; // config view has no per-frame updates
   const cfgView = createConfigView({ config, onClose: showRoutine });
   root.appendChild(cfgView.el);
+}
+
+function showStats() {
+  root.replaceChildren();
+  view = null;
+  const statsView = createStatsView({ config, onClose: showRoutine });
+  root.appendChild(statsView.el);
 }
 
 showRoutine();

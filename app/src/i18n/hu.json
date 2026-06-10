@@ -11,6 +11,16 @@
     "withinTime": "Időben haladsz",
     "overTime": "Nyugodtan, a saját tempódban"
   },
+  "stats": {
+    "title": "Csillagok",
+    "empty": "Még nincs adat — gyűjtsétek az első csillagokat! ⭐",
+    "summary": "{done} kész feladat, ebből {withinTime} időben",
+    "range": {
+      "day": "Ma",
+      "week": "7 nap",
+      "month": "30 nap"
+    }
+  },
   "config": {
     "title": "Beállítások",
     "back": "Vissza",
