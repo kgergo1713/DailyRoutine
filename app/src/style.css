@@ -433,6 +433,18 @@ html, body {
   opacity: 0.7;
 }
 
+.config__about-line {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--c-ink-soft);
+}
+.config__about-line a {
+  color: var(--c-running);
+  font-weight: 600;
+  text-decoration: none;
+}
+.config__about-line a:hover { text-decoration: underline; }
+
 /* ---------- period rows ---------- */
 .config__period-row {
   display: flex;

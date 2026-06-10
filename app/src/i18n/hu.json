@@ -52,7 +52,10 @@
     "language": "Nyelv",
     "theme": "Téma",
     "themeLight": "Világos",
-    "themeDark": "Sötét"
+    "themeDark": "Sötét",
+    "about": "Névjegy",
+    "aboutFeedback": "Észrevételek, fejlesztési javaslatok",
+    "aboutSupport": "Ha szeretnéd támogatni a fejlesztést"
   },
   "demo": {
     "periods": {

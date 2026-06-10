@@ -493,6 +493,29 @@ export function createConfigView({ config, onClose }) {
 
   dataRow.append(exportBtn, importBtn, fileInput, resetBtn);
 
+  // ===================== about =====================
+  const aboutSec = section('config.about');
+
+  const feedback = document.createElement('p');
+  feedback.className = 'config__about-line';
+  feedback.textContent = `${t('config.aboutFeedback')}: `;
+  const mail = document.createElement('a');
+  mail.href = 'mailto:kgergo1713@gmail.com';
+  mail.textContent = 'kgergo1713@gmail.com';
+  feedback.appendChild(mail);
+  aboutSec.appendChild(feedback);
+
+  const support = document.createElement('p');
+  support.className = 'config__about-line';
+  support.textContent = `${t('config.aboutSupport')}: Revolut · `;
+  const rev = document.createElement('a');
+  rev.href = 'https://revolut.me/kgergo1713';
+  rev.target = '_blank';
+  rev.rel = 'noopener noreferrer';
+  rev.textContent = '@kgergo1713';
+  support.appendChild(rev);
+  aboutSec.appendChild(support);
+
   // --- version footer ---
   const version = document.createElement('p');
   version.className = 'config__version';

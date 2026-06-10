@@ -52,7 +52,10 @@
     "language": "Language",
     "theme": "Theme",
     "themeLight": "Light",
-    "themeDark": "Dark"
+    "themeDark": "Dark",
+    "about": "About",
+    "aboutFeedback": "Feedback and feature suggestions",
+    "aboutSupport": "If you'd like to support development"
   },
   "demo": {
     "periods": {
