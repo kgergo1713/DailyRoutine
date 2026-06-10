@@ -4,7 +4,7 @@ const LONG_PRESS_MS = 600;
 
 /**
  * One task tile: icon + label + pie timer ring.
- * States: pending (dim) -> running (pie countdown) -> done (check, micro animation).
+ * States: pending (dim) -> running (pie countdown) <-> paused (frozen ring) -> done.
  * Over the time budget the ring turns amber and keeps counting — never red.
  */
 export function createTaskTile({ task, durationSec, getEntry, onTap, onLongPressUndo }) {
@@ -60,13 +60,22 @@ export function createTaskTile({ task, durationSec, getEntry, onTap, onLongPress
     onTap();
   });
 
+  /** Total active seconds: accumulated past runs + the current run. */
+  function elapsedSec(entry, now) {
+    const accum = entry.accumSec ?? 0;
+    if (entry.status === 'running' && entry.startedAt) {
+      return accum + (now - entry.startedAt) / 1000;
+    }
+    return accum;
+  }
+
   /** Called from the global rAF loop. */
   function update(now = Date.now()) {
     const entry = getEntry();
     el.dataset.status = entry.status;
 
-    if (entry.status === 'running' && entry.startedAt) {
-      const elapsed = (now - entry.startedAt) / 1000;
+    if ((entry.status === 'running' || entry.status === 'paused') && durationSec > 0) {
+      const elapsed = elapsedSec(entry, now);
       const frac = Math.min(elapsed / durationSec, 1);
       const over = elapsed > durationSec;
       el.classList.toggle('task-tile--over', over);

@@ -30,6 +30,20 @@ export function createChildColumn({ child, periodId, periodTasks, taskById, dayS
     const task = taskById[pt.taskId];
     const read = () => getEntry(dayState, periodId, child.id, task.id);
 
+    /** Pause whatever is currently running for this child (one task at a time). */
+    function pauseRunning(now) {
+      for (const other of periodTasks) {
+        if (other.taskId === task.id) continue;
+        const entry = getEntry(dayState, periodId, child.id, other.taskId);
+        if (entry.status === 'running') {
+          const accum = (entry.accumSec ?? 0) + (now - entry.startedAt) / 1000;
+          setEntry(dayState, periodId, child.id, other.taskId, {
+            ...entry, status: 'paused', accumSec: accum, startedAt: null,
+          });
+        }
+      }
+    }
+
     const tile = createTaskTile({
       task,
       durationSec: pt.durationSec,
@@ -37,10 +51,14 @@ export function createChildColumn({ child, periodId, periodTasks, taskById, dayS
       onTap: () => {
         const entry = read();
         const now = Date.now();
-        if (entry.status === 'pending') {
-          setEntry(dayState, periodId, child.id, task.id, { ...entry, status: 'running', startedAt: now });
+        if (entry.status === 'pending' || entry.status === 'paused') {
+          pauseRunning(now);
+          setEntry(dayState, periodId, child.id, task.id, {
+            ...entry, status: 'running', startedAt: now, accumSec: entry.accumSec ?? 0,
+          });
         } else if (entry.status === 'running') {
-          const within = (now - entry.startedAt) / 1000 <= pt.durationSec;
+          const totalSec = (entry.accumSec ?? 0) + (now - entry.startedAt) / 1000;
+          const within = totalSec <= pt.durationSec;
           setEntry(dayState, periodId, child.id, task.id, {
             ...entry, status: 'done', completedAt: now, withinTimeframe: within,
           });
@@ -48,7 +66,7 @@ export function createChildColumn({ child, periodId, periodTasks, taskById, dayS
       },
       onLongPressUndo: () => {
         setEntry(dayState, periodId, child.id, task.id, {
-          status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null,
+          status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null, accumSec: 0,
         });
       },
     });

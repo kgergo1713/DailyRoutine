@@ -227,6 +227,15 @@ html, body {
 .task-tile[data-status='running'] .task-tile__face { opacity: 1; }
 .task-tile--over .task-tile__label { color: var(--c-over); }
 
+/* paused: keeps its frozen progress ring at medium size, slightly dimmed */
+.task-tile[data-status='paused'] .task-tile__ring {
+  width: clamp(72px, 10vh, 116px);
+  height: clamp(72px, 10vh, 116px);
+  opacity: 0.75;
+}
+.task-tile[data-status='paused'] .task-tile__face { opacity: 0.8; }
+.task-tile[data-status='paused'] .task-tile__label { color: var(--c-ink-soft); }
+
 /* done: check pops in once, the whole tile shrinks so everything fits on screen */
 .task-tile[data-status='done'] .task-tile__ring {
   width: clamp(44px, 6vh, 64px);

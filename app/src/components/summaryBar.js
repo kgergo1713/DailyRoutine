@@ -47,7 +47,7 @@ export function createSummaryBar({ children, periodId, periodTasks, dayState }) 
           dot.dataset.kind = entry.withinTimeframe ? 'within' : 'over';
           if (!entry.withinTimeframe) anyOver = true;
         } else {
-          dot.dataset.kind = entry.status === 'running' ? 'running' : 'pending';
+          dot.dataset.kind = entry.status === 'running' || entry.status === 'paused' ? 'running' : 'pending';
         }
         dots.appendChild(dot);
       }
