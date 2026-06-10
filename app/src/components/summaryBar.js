@@ -7,7 +7,7 @@ import { iconEl } from './icon.js';
  * neutral within/over time label (green / amber, never red).
  * When everything is done, a smiley replaces the text (pre-readers!).
  */
-export function createSummaryBar({ children, periodTasks, dayState }) {
+export function createSummaryBar({ children, periodId, periodTasks, dayState }) {
   const el = document.createElement('footer');
   el.className = 'summary';
 
@@ -39,7 +39,7 @@ export function createSummaryBar({ children, periodTasks, dayState }) {
       let done = 0;
       let anyOver = false;
       for (const pt of periodTasks) {
-        const entry = getEntry(dayState, child.id, pt.taskId);
+        const entry = getEntry(dayState, periodId, child.id, pt.taskId);
         const dot = document.createElement('i');
         dot.className = 'summary__dot';
         if (entry.status === 'done') {

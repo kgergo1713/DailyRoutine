@@ -150,15 +150,146 @@ export function createConfigView({ config, onClose }) {
   });
   childSec.appendChild(addChild);
 
-  // ===================== tasks =====================
+  // ===================== periods =====================
+  const periodSec = section('config.periods');
+  const periodList = document.createElement('div');
+  periodList.className = 'config__list';
+  periodSec.appendChild(periodList);
+
+  let selectedPeriod = config.periods[0] ?? null;
+
+  const DAY_LABELS = t('config.dayLabels').split(',');
+
+  function renderPeriods() {
+    periodList.replaceChildren();
+    config.periods.forEach((period) => {
+      const row = document.createElement('div');
+      row.className = 'config__period-row';
+      if (period === selectedPeriod) row.classList.add('config__period-row--active');
+
+      const main = document.createElement('div');
+      main.className = 'config__period-main';
+
+      const name = document.createElement('input');
+      name.type = 'text';
+      name.value = period.name;
+      name.addEventListener('change', () => {
+        period.name = name.value.trim() || period.name;
+        persist();
+      });
+      name.addEventListener('focus', () => selectPeriod(period));
+
+      const times = document.createElement('div');
+      times.className = 'config__period-times';
+      const from = timeInput(period.schedule.fromTime ?? '06:00', (v) => {
+        period.schedule.fromTime = v;
+        persist();
+      });
+      const dash = document.createElement('span');
+      dash.textContent = '–';
+      const to = timeInput(period.schedule.toTime ?? '09:00', (v) => {
+        period.schedule.toTime = v;
+        persist();
+      });
+      times.append(from, dash, to);
+
+      const days = document.createElement('div');
+      days.className = 'config__days';
+      for (let d = 1; d <= 7; d++) {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'config__day-chip';
+        chip.textContent = DAY_LABELS[d - 1];
+        const has = (period.schedule.days ?? []).includes(d);
+        chip.classList.toggle('config__day-chip--on', has);
+        chip.addEventListener('click', () => {
+          const set = new Set(period.schedule.days ?? []);
+          set.has(d) ? set.delete(d) : set.add(d);
+          period.schedule.days = [...set].sort((a, b) => a - b);
+          persist();
+          renderPeriods();
+        });
+        days.appendChild(chip);
+      }
+
+      main.append(name, times, days);
+
+      const side = document.createElement('div');
+      side.className = 'config__period-side';
+      const selectBtn = document.createElement('button');
+      selectBtn.type = 'button';
+      selectBtn.className = 'btn';
+      selectBtn.textContent = t('config.editTasks');
+      selectBtn.addEventListener('click', () => selectPeriod(period));
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'btn btn--danger';
+      del.textContent = t('config.delete');
+      del.addEventListener('click', () => {
+        if (config.periods.length <= 1) return; // keep at least one
+        if (!confirm(t('config.deleteConfirm'))) return;
+        config.periods = config.periods.filter((p) => p.id !== period.id);
+        if (selectedPeriod === period) selectedPeriod = config.periods[0];
+        persist();
+        renderPeriods();
+        renderTasks();
+      });
+      side.append(selectBtn, del);
+
+      row.append(main, side);
+      periodList.appendChild(row);
+    });
+  }
+
+  function timeInput(value, onChange) {
+    const input = document.createElement('input');
+    input.type = 'time';
+    input.value = value;
+    input.className = 'config__time';
+    input.addEventListener('change', () => onChange(input.value));
+    return input;
+  }
+
+  function selectPeriod(period) {
+    if (selectedPeriod === period) return;
+    selectedPeriod = period;
+    renderPeriods();
+    renderTasks();
+  }
+
+  const addPeriod = document.createElement('button');
+  addPeriod.type = 'button';
+  addPeriod.className = 'btn btn--add';
+  addPeriod.textContent = t('config.addPeriod');
+  addPeriod.addEventListener('click', () => {
+    const period = {
+      id: crypto.randomUUID(),
+      name: t('config.newPeriodName'),
+      schedule: { type: 'weekly', days: [1, 2, 3, 4, 5], fromTime: '06:00', toTime: '09:00' },
+      tasks: [],
+    };
+    config.periods.push(period);
+    selectedPeriod = period;
+    persist();
+    renderPeriods();
+    renderTasks();
+  });
+  periodSec.appendChild(addPeriod);
+
+  // ===================== tasks (of the selected period) =====================
   const taskSec = section('config.tasks');
+  const taskPeriodLabel = document.createElement('p');
+  taskPeriodLabel.className = 'config__task-period';
+  taskSec.insertBefore(taskPeriodLabel, taskSec.firstChild.nextSibling);
   const taskList = document.createElement('div');
   taskList.className = 'config__list';
   taskSec.appendChild(taskList);
 
   function renderTasks() {
     taskList.replaceChildren();
-    config.period.tasks.forEach((pt, i) => {
+    taskPeriodLabel.textContent = selectedPeriod ? selectedPeriod.name : '';
+    if (!selectedPeriod) return;
+    selectedPeriod.tasks.forEach((pt, i) => {
       const task = config.tasks.find((task) => task.id === pt.taskId);
       if (!task) return;
       const row = document.createElement('div');
@@ -210,8 +341,10 @@ export function createConfigView({ config, onClose }) {
       del.textContent = t('config.delete');
       del.addEventListener('click', () => {
         if (!confirm(t('config.deleteConfirm'))) return;
-        config.period.tasks.splice(i, 1);
-        config.tasks = config.tasks.filter((x) => x.id !== task.id);
+        selectedPeriod.tasks.splice(i, 1);
+        // Remove the template too when no other period references it.
+        const used = config.periods.some((p) => p.tasks.some((x) => x.taskId === task.id));
+        if (!used) config.tasks = config.tasks.filter((x) => x.id !== task.id);
         persist();
         renderTasks();
       });
@@ -222,7 +355,7 @@ export function createConfigView({ config, onClose }) {
   }
 
   function swapTask(i, j) {
-    const arr = config.period.tasks;
+    const arr = selectedPeriod.tasks;
     if (j < 0 || j >= arr.length) return;
     [arr[i], arr[j]] = [arr[j], arr[i]];
     persist();
@@ -234,6 +367,7 @@ export function createConfigView({ config, onClose }) {
   addTask.className = 'btn btn--add';
   addTask.textContent = t('config.addTask');
   addTask.addEventListener('click', () => {
+    if (!selectedPeriod) return;
     const task = {
       id: crypto.randomUUID(),
       label: t('config.newTaskLabel'),
@@ -241,7 +375,7 @@ export function createConfigView({ config, onClose }) {
       defaultDurationSec: 300,
     };
     config.tasks.push(task);
-    config.period.tasks.push({ taskId: task.id, durationSec: 300, perChild: true });
+    selectedPeriod.tasks.push({ taskId: task.id, durationSec: 300, perChild: true });
     persist();
     renderTasks();
   });
@@ -280,10 +414,18 @@ export function createConfigView({ config, onClose }) {
     if (!file) return;
     try {
       const imported = JSON.parse(await file.text());
-      if (!imported.children || !imported.tasks || !imported.period) throw new Error('bad shape');
+      // Accept both old (period) and new (periods) export shapes.
+      if (imported.period && !imported.periods) {
+        imported.periods = [imported.period];
+        delete imported.period;
+      }
+      if (!imported.children || !imported.tasks || !imported.periods) throw new Error('bad shape');
+      delete config.period;
       Object.assign(config, imported);
+      selectedPeriod = config.periods[0] ?? null;
       persist();
       renderChildren();
+      renderPeriods();
       renderTasks();
     } catch {
       alert('Hibás fájl.');
@@ -297,15 +439,19 @@ export function createConfigView({ config, onClose }) {
   resetBtn.textContent = t('config.reset');
   resetBtn.addEventListener('click', () => {
     if (!confirm(t('config.resetConfirm'))) return;
+    delete config.period;
     Object.assign(config, buildDemoConfig());
+    selectedPeriod = config.periods[0];
     persist();
     renderChildren();
+    renderPeriods();
     renderTasks();
   });
 
   dataRow.append(exportBtn, importBtn, fileInput, resetBtn);
 
   renderChildren();
+  renderPeriods();
   renderTasks();
   return { el };
 }

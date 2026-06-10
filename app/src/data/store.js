@@ -12,7 +12,16 @@ export function todayKey() {
 export function loadConfig() {
   try {
     const raw = localStorage.getItem(CONFIG_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const config = JSON.parse(raw);
+      // Migration: single `period` (phase 1-2) -> `periods` array (phase 3).
+      if (!config.periods && config.period) {
+        config.periods = [config.period];
+        delete config.period;
+        saveConfig(config);
+      }
+      if (config.periods) return config;
+    }
   } catch { /* corrupt data -> reseed */ }
   const demo = buildDemoConfig();
   saveConfig(demo);
@@ -24,8 +33,8 @@ export function saveConfig(config) {
 }
 
 /**
- * Daily state: per child+task status entries.
- * { [childId]: { [taskId]: { status, startedAt, completedAt, withinTimeframe } } }
+ * Daily state, scoped by period (the same task can appear in several periods):
+ * { [periodId]: { [childId]: { [taskId]: { status, startedAt, completedAt, withinTimeframe } } } }
  */
 export function loadDayState(dateKey = todayKey()) {
   try {
@@ -39,12 +48,12 @@ export function saveDayState(state, dateKey = todayKey()) {
   localStorage.setItem(DAY_KEY_PREFIX + dateKey, JSON.stringify(state));
 }
 
-export function getEntry(state, childId, taskId) {
-  return state[childId]?.[taskId] ?? { status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null };
+export function getEntry(state, periodId, childId, taskId) {
+  return state[periodId]?.[childId]?.[taskId]
+    ?? { status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null };
 }
 
-export function setEntry(state, childId, taskId, entry) {
-  if (!state[childId]) state[childId] = {};
-  state[childId][taskId] = entry;
+export function setEntry(state, periodId, childId, taskId, entry) {
+  ((state[periodId] ??= {})[childId] ??= {})[taskId] = entry;
   saveDayState(state);
 }

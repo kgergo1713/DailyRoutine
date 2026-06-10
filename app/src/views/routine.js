@@ -1,7 +1,13 @@
 import { createChildColumn } from '../components/childColumn.js';
 import { createSummaryBar } from '../components/summaryBar.js';
+import { pickActivePeriod } from '../data/schedule.js';
+import { t } from '../i18n/index.js';
 
-/** Main routine view: top bar, child columns, bottom summary. */
+/**
+ * Main routine view: top bar, child columns, bottom summary.
+ * Re-selects the active period automatically; shows a calm
+ * "nothing to do now" screen when no period matches.
+ */
 export function createRoutineView({ config, dayState, onOpenConfig }) {
   const el = document.createElement('div');
   el.className = 'routine';
@@ -11,7 +17,6 @@ export function createRoutineView({ config, dayState, onOpenConfig }) {
   top.className = 'routine__top';
   const periodName = document.createElement('span');
   periodName.className = 'routine__period';
-  periodName.textContent = config.period.name;
   const clock = document.createElement('span');
   clock.className = 'routine__clock';
   const gear = document.createElement('button');
@@ -25,28 +30,60 @@ export function createRoutineView({ config, dayState, onOpenConfig }) {
   top.appendChild(gear);
   el.appendChild(top);
 
-  // --- child columns ---
+  const body = document.createElement('div');
+  body.className = 'routine__body';
+  el.appendChild(body);
+
   const taskById = Object.fromEntries(config.tasks.map((task) => [task.id, task]));
   const children = [...config.children].sort((a, b) => a.order - b.order);
 
-  const cols = document.createElement('main');
-  cols.className = 'routine__cols';
-  cols.style.setProperty('--col-count', children.length);
-  const columns = children.map((child) => {
-    const col = createChildColumn({ child, periodTasks: config.period.tasks, taskById, dayState });
-    cols.appendChild(col.el);
-    return col;
-  });
-  el.appendChild(cols);
+  let activePeriodId = undefined; // undefined = not built yet
+  let columns = [];
+  let summary = null;
 
-  // --- summary ---
-  const summary = createSummaryBar({ children, periodTasks: config.period.tasks, dayState });
-  el.appendChild(summary.el);
+  function buildPeriod(period) {
+    body.replaceChildren();
+    columns = [];
+    summary = null;
+
+    if (!period) {
+      periodName.textContent = '';
+      const idle = document.createElement('div');
+      idle.className = 'routine__idle';
+      idle.textContent = t('routine.noPeriod');
+      body.appendChild(idle);
+      return;
+    }
+
+    periodName.textContent = period.name;
+
+    const cols = document.createElement('main');
+    cols.className = 'routine__cols';
+    cols.style.setProperty('--col-count', children.length);
+    columns = children.map((child) => {
+      const col = createChildColumn({
+        child, periodId: period.id, periodTasks: period.tasks, taskById, dayState,
+      });
+      cols.appendChild(col.el);
+      return col;
+    });
+    body.appendChild(cols);
+
+    summary = createSummaryBar({ children, periodId: period.id, periodTasks: period.tasks, dayState });
+    body.appendChild(summary.el);
+  }
 
   let lastClock = '';
   function update(now = Date.now()) {
+    const period = pickActivePeriod(config.periods, new Date(now));
+    const id = period?.id ?? null;
+    if (id !== activePeriodId) {
+      activePeriodId = id;
+      buildPeriod(period);
+    }
+
     for (const col of columns) col.update(now);
-    summary.update();
+    if (summary) summary.update();
     const hhmm = new Date(now).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' });
     if (hhmm !== lastClock) {
       lastClock = hhmm;

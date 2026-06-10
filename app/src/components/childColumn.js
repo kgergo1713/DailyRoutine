@@ -6,7 +6,7 @@ import { getEntry, setEntry } from '../data/store.js';
  * A child's column: header (marker + name) and the task tiles.
  * The first not-done task gets a calm "next" highlight.
  */
-export function createChildColumn({ child, periodTasks, taskById, dayState }) {
+export function createChildColumn({ child, periodId, periodTasks, taskById, dayState }) {
   const el = document.createElement('section');
   el.className = 'child-col';
   el.style.setProperty('--c-child', child.color);
@@ -28,7 +28,7 @@ export function createChildColumn({ child, periodTasks, taskById, dayState }) {
 
   const tiles = periodTasks.map((pt) => {
     const task = taskById[pt.taskId];
-    const read = () => getEntry(dayState, child.id, task.id);
+    const read = () => getEntry(dayState, periodId, child.id, task.id);
 
     const tile = createTaskTile({
       task,
@@ -38,16 +38,16 @@ export function createChildColumn({ child, periodTasks, taskById, dayState }) {
         const entry = read();
         const now = Date.now();
         if (entry.status === 'pending') {
-          setEntry(dayState, child.id, task.id, { ...entry, status: 'running', startedAt: now });
+          setEntry(dayState, periodId, child.id, task.id, { ...entry, status: 'running', startedAt: now });
         } else if (entry.status === 'running') {
           const within = (now - entry.startedAt) / 1000 <= pt.durationSec;
-          setEntry(dayState, child.id, task.id, {
+          setEntry(dayState, periodId, child.id, task.id, {
             ...entry, status: 'done', completedAt: now, withinTimeframe: within,
           });
         }
       },
       onLongPressUndo: () => {
-        setEntry(dayState, child.id, task.id, {
+        setEntry(dayState, periodId, child.id, task.id, {
           status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null,
         });
       },
@@ -67,7 +67,7 @@ export function createChildColumn({ child, periodTasks, taskById, dayState }) {
   }
 
   function read(taskId) {
-    return getEntry(dayState, child.id, taskId);
+    return getEntry(dayState, periodId, child.id, taskId);
   }
 
   update();

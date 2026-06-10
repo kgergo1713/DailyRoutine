@@ -16,6 +16,11 @@
     "back": "Vissza",
     "children": "Gyerekek",
     "tasks": "Feladatok",
+    "periods": "Időszakok",
+    "addPeriod": "+ Időszak hozzáadása",
+    "newPeriodName": "Új időszak",
+    "editTasks": "Feladatok →",
+    "dayLabels": "H,K,Sze,Cs,P,Szo,V",
     "data": "Adatok",
     "addChild": "+ Gyerek hozzáadása",
     "addTask": "+ Feladat hozzáadása",
@@ -36,7 +41,11 @@
     "newTaskLabel": "Új feladat"
   },
   "demo": {
-    "periodName": "Hétköznap reggel",
+    "periods": {
+      "weekdayMorning": "Hétköznap reggel",
+      "evening": "Este",
+      "weekendMorning": "Hétvégi reggel"
+    },
     "children": {
       "peti": "Peti",
       "balint": "Bálint",
@@ -49,7 +58,10 @@
       "breakfast": "Reggeli",
       "teeth": "Fogmosás",
       "shoes": "Cipő",
-      "backpack": "Bepakolás"
+      "backpack": "Bepakolás",
+      "pajamas": "Pizsama",
+      "tidyup": "Rendrakás",
+      "bath": "Fürdés"
     }
   }
 }
