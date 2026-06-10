@@ -1,7 +1,8 @@
 import { createChildColumn } from '../components/childColumn.js';
 import { createSummaryBar } from '../components/summaryBar.js';
 import { pickActivePeriod } from '../data/schedule.js';
-import { t } from '../i18n/index.js';
+import { t, getLang, listLangs, setLang } from '../i18n/index.js';
+import { getTheme, setTheme } from '../data/theme.js';
 
 /**
  * Main routine view: top bar, child columns, bottom summary.
@@ -19,20 +20,48 @@ export function createRoutineView({ config, dayState, onOpenConfig, onOpenStats 
   periodName.className = 'routine__period';
   const clock = document.createElement('span');
   clock.className = 'routine__clock';
-  const stars = document.createElement('button');
-  stars.type = 'button';
-  stars.className = 'routine__gear';
-  stars.textContent = '★';
-  stars.setAttribute('aria-label', 'Statisztika');
-  stars.addEventListener('click', onOpenStats);
-  const gear = document.createElement('button');
-  gear.type = 'button';
-  gear.className = 'routine__gear';
-  gear.textContent = '⚙';
-  gear.setAttribute('aria-label', 'Beállítások');
-  gear.addEventListener('click', onOpenConfig);
+
+  function topBtn(label, ariaLabel, onClick, extraClass = '') {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `routine__gear ${extraClass}`.trim();
+    b.textContent = label;
+    b.setAttribute('aria-label', ariaLabel);
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  // language toggle: shows the current language code, tap cycles hu <-> en
+  const lang = topBtn(getLang().toUpperCase(), 'Nyelv / Language', () => {
+    const langs = listLangs();
+    const next = langs[(langs.indexOf(getLang()) + 1) % langs.length];
+    setLang(next);
+    location.reload();
+  }, 'routine__gear--lang');
+
+  // theme toggle: shows what you'd switch to
+  const theme = topBtn(getTheme() === 'dark' ? '☀' : '☾', 'Téma / Theme', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    theme.textContent = getTheme() === 'dark' ? '☀' : '☾';
+  });
+
+  // fullscreen toggle (useful when running in a browser tab, not as installed PWA)
+  const fullscreen = topBtn('⛶', 'Teljes képernyő / Fullscreen', () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  });
+
+  const stars = topBtn('★', 'Statisztika', onOpenStats);
+  const gear = topBtn('⚙', 'Beállítások', onOpenConfig);
+
   top.appendChild(periodName);
   top.appendChild(clock);
+  top.appendChild(lang);
+  top.appendChild(theme);
+  top.appendChild(fullscreen);
   top.appendChild(stars);
   top.appendChild(gear);
   el.appendChild(top);

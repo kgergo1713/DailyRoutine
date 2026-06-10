@@ -1,5 +1,4 @@
-import { t, getLang, listLangs, setLang } from '../i18n/index.js';
-import { getTheme, setTheme } from '../data/theme.js';
+import { t } from '../i18n/index.js';
 import { saveConfig } from '../data/store.js';
 import { buildDemoConfig } from '../data/demo.js';
 import { iconEl } from '../components/icon.js';
@@ -381,48 +380,6 @@ export function createConfigView({ config, onClose }) {
     renderTasks();
   });
   taskSec.appendChild(addTask);
-
-  // ===================== appearance: language + theme =====================
-  const appearanceSec = section('config.language');
-  const appearanceRow = document.createElement('div');
-  appearanceRow.className = 'config__data-row';
-  appearanceSec.appendChild(appearanceRow);
-
-  for (const lang of listLangs()) {
-    const chip = document.createElement('button');
-    chip.type = 'button';
-    chip.className = 'config__day-chip';
-    chip.textContent = lang.toUpperCase();
-    chip.classList.toggle('config__day-chip--on', lang === getLang());
-    chip.addEventListener('click', () => {
-      if (lang === getLang()) return;
-      setLang(lang);
-      persist();
-      location.reload(); // simplest full re-render with the new language
-    });
-    appearanceRow.appendChild(chip);
-  }
-
-  const themeSep = document.createElement('span');
-  themeSep.className = 'config__sep';
-  appearanceRow.appendChild(themeSep);
-
-  const themeChips = [];
-  for (const theme of ['light', 'dark']) {
-    const chip = document.createElement('button');
-    chip.type = 'button';
-    chip.className = 'config__day-chip';
-    chip.textContent = t(theme === 'light' ? 'config.themeLight' : 'config.themeDark');
-    chip.classList.toggle('config__day-chip--on', theme === getTheme());
-    chip.addEventListener('click', () => {
-      setTheme(theme);
-      for (const { el: c, theme: th } of themeChips) {
-        c.classList.toggle('config__day-chip--on', th === theme);
-      }
-    });
-    themeChips.push({ el: chip, theme });
-    appearanceRow.appendChild(chip);
-  }
 
   // ===================== data =====================
   const dataSec = section('config.data');
