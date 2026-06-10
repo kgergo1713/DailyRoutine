@@ -493,6 +493,12 @@ export function createConfigView({ config, onClose }) {
 
   dataRow.append(exportBtn, importBtn, fileInput, resetBtn);
 
+  // --- version footer ---
+  const version = document.createElement('p');
+  version.className = 'config__version';
+  version.textContent = `DailyRoutine v${__APP_VERSION__}`;
+  body.appendChild(version);
+
   renderChildren();
   renderPeriods();
   renderTasks();
