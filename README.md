@@ -4,6 +4,8 @@ A visual task-tracking tablet app for kids. It eases the "emergency mode" of get
 
 Built as an **offline-first PWA**, designed for Android tablets (installable from the browser, runs full-screen, works without a network connection).
 
+**Live app:** https://kgergo1713.github.io/DailyRoutine/
+
 ## Core principles
 
 1. **Visual only, no sound.** No alarms, bells, or speech.
@@ -16,24 +18,27 @@ The app is designed with neurodivergent (ADHD/autistic) children in mind, for wh
 
 ## Features
 
-- **Routine view** — one column per child with their marker and name, task icons with three states (`pending` → `running` → `done`), a calm pie-slice countdown timer for the running task, and a per-child progress summary bar.
-- **Timer** — when the time budget expires, the timer keeps counting (overrun is measured and logged), but the visual state stays neutral. No red, ever.
-- **Configuration view** (parent) — manage children, a task library with icons and default durations, periods/schedules, language, theme, JSON export/import.
-- **Statistics view** — daily/weekly/period summaries with positive framing ("weekly stars"), never shaming rankings.
-- **Schedules** — weekday mornings/afternoons/evenings, weekends, and one-off events; the app picks the active period automatically based on the current date and time.
-
-> The first release targets the MVP scope (routine view, task state machine, pie timer, summary bar, local persistence). Configuration, schedules, statistics, and i18n follow in later phases — see the [development phases](MORNING_ROUTINE_APP_SPEC.md) in the spec (Hungarian).
+- **Routine view** — one column per child with their marker and name; task tiles with four states (`pending` → `running` ⇄ `paused` → `done`); the next task is highlighted with a calm pulsing outline; completed tasks shrink to small check marks so the whole routine always fits on screen.
+- **One task at a time** — tapping another task automatically pauses the running one (its progress is preserved); tapping a paused task resumes it.
+- **Timer** — a pie-slice ring counts down the time budget; on overrun it turns to a neutral amber and keeps counting. No red, ever.
+- **Summary bar** — per-child progress dots; when everything is done, a smiley appears instead of text (pre-readers!).
+- **Schedules** — multiple periods (weekday morning, evening, weekend…) with per-day and time-window settings; the app picks the active period automatically and shows a calm "nothing to do now" screen otherwise.
+- **Configuration view** (parent, ⚙) — children (name, color, OpenMoji marker), per-period task lists (label, icon, time budget, order), period editor with day chips, JSON export/import, demo reset.
+- **Icon picker** — curated popular icons up front, full searchable set (~1500 Phosphor + ~1100 kid-friendly OpenMoji) behind an "All" toggle with infinite scroll.
+- **Statistics view** (★) — stars for on-time completions, per-day bar charts, Today / 7 days / 30 days ranges. Positive framing only, no rankings.
+- **Languages & themes** — Hungarian and English UI, light and dark themes, all persisted locally.
 
 ## Tech stack
 
 | Layer | Choice |
 |---|---|
 | Framework | Vanilla JS + [Vite](https://vitejs.dev) |
-| Storage | `localStorage` (MVP), `IndexedDB` later |
+| Storage | `localStorage` — all data stays on the device |
 | App shell | PWA (manifest + service worker, full offline cache) |
 | Timer | `requestAnimationFrame` + absolute timestamps (stays accurate across tab switches and reloads) |
 | Icons | [Phosphor Icons](https://phosphoricons.com) (task icons) + [OpenMoji](https://openmoji.org) (child markers) |
-| i18n | JSON language files (`hu` first, `en` planned) |
+| i18n | JSON language files (`hu`, `en`) |
+| Deploy | GitHub Actions → GitHub Pages on every push to `main` |
 
 ## Getting started
 
@@ -44,7 +49,7 @@ npm install
 npm run dev
 ```
 
-Open the printed local URL in a browser. The app ships with Hungarian demo data (children and a weekday-morning routine) so it is usable immediately; the demo config can be replaced or cleared at any time.
+Open the printed local URL in a browser. The app ships with Hungarian demo data (4 children, weekday-morning, evening and weekend routines) so it is usable immediately; the demo config can be replaced or cleared at any time in Settings.
 
 ### Production build
 
@@ -55,11 +60,11 @@ npm run preview   # serve the build locally
 
 ## Installing on an Android tablet
 
-The app is published via GitHub Pages. On the tablet:
-
-1. Open the GitHub Pages URL in Chrome.
+1. Open https://kgergo1713.github.io/DailyRoutine/ in Chrome on the tablet.
 2. Choose **Add to Home screen** / **Install app** from the menu.
 3. Launch it from the home screen — it runs full-screen and works offline from then on.
+
+Each device keeps its own configuration and history; nothing is shared or uploaded.
 
 ## Project structure
 
@@ -67,18 +72,25 @@ The app is published via GitHub Pages. On the tablet:
 /app
   /src
     /views        routine, config, stats
-    /components   TaskTile, TimerRing, ChildColumn, SummaryBar, IconPicker
-    /data         storage wrapper
+    /components   taskTile, childColumn, summaryBar, iconPicker, icon
+    /data         store (localStorage), schedule, stats, theme, demo data
     /i18n         hu.json, en.json
-    /icons        phosphor + openmoji SVGs, icon-registry.json
-  /scripts        build-icon-sprite.js
-  /public         manifest.json, sw.js, app icons
+  /scripts        build-icon-list.mjs
+  /public
+    /icons        phosphor + openmoji SVGs
+    manifest.webmanifest, sw.js, app icon
+/.github/workflows  GitHub Pages deploy
 MORNING_ROUTINE_APP_SPEC.md   full specification (Hungarian)
 ```
 
 ## Privacy
 
 All data (configuration and completion logs) is stored locally on the device. There are no trackers, no analytics, no external CDNs, and no network requests with user data.
+
+## Feedback & support
+
+- Feedback and feature suggestions: [kgergo1713@gmail.com](mailto:kgergo1713@gmail.com)
+- If you'd like to support development: Revolut [@kgergo1713](https://revolut.me/kgergo1713)
 
 ## License & attribution
 
