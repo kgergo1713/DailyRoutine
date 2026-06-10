@@ -26,6 +26,7 @@
     "moveUp": "▲",
     "moveDown": "▼",
     "iconSearch": "Keresés…",
+    "iconAll": "Összes",
     "export": "Mentés fájlba",
     "import": "Betöltés fájlból",
     "reset": "Visszaállítás demóra",

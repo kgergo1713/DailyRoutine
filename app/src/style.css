@@ -416,7 +416,14 @@ html, body {
   gap: 12px;
 }
 
+.icon-picker__top {
+  display: flex;
+  gap: 8px;
+}
+
 .icon-picker__search {
+  flex: 1;
+  min-width: 0;
   font: inherit;
   font-size: 1.05rem;
   padding: 10px 14px;
@@ -424,6 +431,12 @@ html, body {
   border-radius: 10px;
   background: var(--c-bg);
   color: var(--c-ink);
+}
+
+.btn--active {
+  border-color: var(--c-next);
+  background: color-mix(in srgb, var(--c-next) 18%, var(--c-surface));
+  font-weight: 600;
 }
 
 .icon-picker__grid {
