@@ -26,7 +26,8 @@ The app is designed with neurodivergent (ADHD/autistic) children in mind, for wh
 - **Configuration view** (parent, ⚙) — children (name, color, OpenMoji marker), per-period task lists (label, icon, time budget, order), period editor with day chips, JSON export/import, demo reset.
 - **Icon picker** — curated popular icons up front, full searchable set (~1500 Phosphor + ~1100 kid-friendly OpenMoji) behind an "All" toggle with infinite scroll.
 - **Statistics view** (★) — stars for on-time completions, per-day bar charts, Today / 7 days / 30 days ranges. Positive framing only, no rankings.
-- **Languages & themes** — Hungarian and English UI, light and dark themes, all persisted locally.
+- **Quick toggles on the main screen** — language (HU/EN), light/dark theme and fullscreen as icon buttons in the top bar.
+- **Screen wake lock** — the display stays awake while the board is visible (Screen Wake Lock API), re-acquired automatically when the app regains focus.
 
 ## Tech stack
 
@@ -63,6 +64,8 @@ npm run preview   # serve the build locally
 1. Open https://kgergo1713.github.io/DailyRoutine/ in Chrome on the tablet.
 2. Choose **Add to Home screen** / **Install app** from the menu.
 3. Launch it from the home screen — it runs full-screen and works offline from then on.
+
+When running in a browser tab instead, use the ⛶ button for fullscreen. The screen is kept awake while the app is visible — keeping the tablet on a charger is recommended.
 
 Each device keeps its own configuration and history; nothing is shared or uploaded.
 
