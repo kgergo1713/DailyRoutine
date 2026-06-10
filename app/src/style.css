@@ -12,6 +12,18 @@
   --radius: 18px;
 }
 
+:root[data-theme='dark'] {
+  --c-bg: #211e1a;
+  --c-surface: #2e2a25;
+  --c-ink: #ece4d6;
+  --c-ink-soft: #a39c8f;
+  --c-running: #5fa87f;
+  --c-over: #e9b44c;
+  --c-within: #5fa87f;
+  --c-ring-rest: #4a443c;
+  --c-next: #f4a261;
+}
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -394,6 +406,14 @@ html, body {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.config__sep {
+  width: 1px;
+  height: 28px;
+  background: var(--c-ring-rest);
+  margin: 0 6px;
 }
 
 /* ---------- period rows ---------- */

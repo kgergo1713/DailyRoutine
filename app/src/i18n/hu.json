@@ -48,7 +48,11 @@
     "resetConfirm": "Biztosan visszaállítod az alap demó beállításokat? Minden módosítás elvész.",
     "deleteConfirm": "Biztosan törlöd?",
     "newChildName": "Új gyerek",
-    "newTaskLabel": "Új feladat"
+    "newTaskLabel": "Új feladat",
+    "language": "Nyelv",
+    "theme": "Téma",
+    "themeLight": "Világos",
+    "themeDark": "Sötét"
   },
   "demo": {
     "periods": {

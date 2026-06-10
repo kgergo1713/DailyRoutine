@@ -1,0 +1,81 @@
+{
+  "app": {
+    "title": "Morning Routine"
+  },
+  "routine": {
+    "noPeriod": "Nothing to do right now — take a break! 🌤",
+    "allDone": "All done! Great job!",
+    "progress": "{done} / {total} done"
+  },
+  "status": {
+    "withinTime": "Right on time",
+    "overTime": "Take your time, no rush"
+  },
+  "stats": {
+    "title": "Stars",
+    "empty": "No data yet — collect your first stars! ⭐",
+    "summary": "{done} tasks done, {withinTime} on time",
+    "range": {
+      "day": "Today",
+      "week": "7 days",
+      "month": "30 days"
+    }
+  },
+  "config": {
+    "title": "Settings",
+    "back": "Back",
+    "children": "Children",
+    "tasks": "Tasks",
+    "periods": "Periods",
+    "addPeriod": "+ Add period",
+    "newPeriodName": "New period",
+    "editTasks": "Tasks →",
+    "dayLabels": "Mo,Tu,We,Th,Fr,Sa,Su",
+    "data": "Data",
+    "addChild": "+ Add child",
+    "addTask": "+ Add task",
+    "name": "Name",
+    "label": "Label",
+    "durationMin": "Time budget (min)",
+    "delete": "Delete",
+    "moveUp": "▲",
+    "moveDown": "▼",
+    "iconSearch": "Search…",
+    "iconAll": "All",
+    "export": "Save to file",
+    "import": "Load from file",
+    "reset": "Reset to demo",
+    "resetConfirm": "Reset to the default demo configuration? All changes will be lost.",
+    "deleteConfirm": "Are you sure?",
+    "newChildName": "New child",
+    "newTaskLabel": "New task",
+    "language": "Language",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark"
+  },
+  "demo": {
+    "periods": {
+      "weekdayMorning": "Weekday morning",
+      "evening": "Evening",
+      "weekendMorning": "Weekend morning"
+    },
+    "children": {
+      "peti": "Peti",
+      "balint": "Bálint",
+      "sari": "Sári",
+      "adam": "Ádám"
+    },
+    "tasks": {
+      "wakeup": "Wake up",
+      "dress": "Get dressed",
+      "breakfast": "Breakfast",
+      "teeth": "Brush teeth",
+      "shoes": "Shoes",
+      "backpack": "Pack bag",
+      "pajamas": "Pajamas",
+      "tidyup": "Tidy up",
+      "bath": "Bath"
+    }
+  }
+}

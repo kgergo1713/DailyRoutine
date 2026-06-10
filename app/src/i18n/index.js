@@ -1,10 +1,23 @@
 import hu from './hu.json';
+import en from './en.json';
 
-const LANGS = { hu };
-let current = 'hu';
+const LANGS = { hu, en };
+const LANG_KEY = 'dr.lang';
+let current = localStorage.getItem(LANG_KEY) in LANGS ? localStorage.getItem(LANG_KEY) : 'hu';
+
+export function getLang() {
+  return current;
+}
+
+export function listLangs() {
+  return Object.keys(LANGS);
+}
 
 export function setLang(lang) {
-  if (LANGS[lang]) current = lang;
+  if (LANGS[lang]) {
+    current = lang;
+    localStorage.setItem(LANG_KEY, lang);
+  }
 }
 
 /** t('routine.progress', { done: 2, total: 6 }) */

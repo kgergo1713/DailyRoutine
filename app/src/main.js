@@ -1,8 +1,11 @@
 import './style.css';
 import { loadConfig, loadDayState } from './data/store.js';
+import { applyTheme } from './data/theme.js';
 import { createRoutineView } from './views/routine.js';
 import { createConfigView } from './views/config.js';
 import { createStatsView } from './views/stats.js';
+
+applyTheme();
 
 const config = loadConfig();
 const dayState = loadDayState();
