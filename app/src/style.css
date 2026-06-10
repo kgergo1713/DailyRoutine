@@ -88,7 +88,7 @@ html, body {
   gap: 10px;
   padding: 10px 8px 6px;
 }
-.child-col__marker { width: 44px; height: 44px; }
+.child-col__marker { width: 88px; height: 88px; }
 .child-col__name {
   margin: 0;
   font-size: 1.35rem;
@@ -100,7 +100,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 4px;
   padding: 4px 8px 10px;
   min-height: 0;
   overflow-y: auto;
@@ -119,6 +119,7 @@ html, body {
   cursor: pointer;
   min-width: 48px;
   min-height: 48px;
+  flex-shrink: 0;
   font: inherit;
   color: inherit;
   touch-action: manipulation;
@@ -126,13 +127,13 @@ html, body {
 
 .task-tile__ring {
   position: relative;
-  width: clamp(56px, 9vh, 92px);
-  height: clamp(56px, 9vh, 92px);
+  width: clamp(112px, 16vh, 184px);
+  height: clamp(112px, 16vh, 184px);
   border-radius: 50%;
   background: transparent;
   display: grid;
   place-items: center;
-  transition: background 0.2s;
+  transition: background 0.2s, width 0.35s ease, height 0.35s ease;
 }
 
 .task-tile__face {
@@ -151,7 +152,7 @@ html, body {
   inset: 0;
   display: grid;
   place-items: center;
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: 800;
   color: #fff;
   background: var(--c-within);
@@ -168,8 +169,17 @@ html, body {
   max-width: 110px;
 }
 
-/* pending: dim */
+/* pending: dim and medium-sized; the active task is the big one */
 .task-tile[data-status='pending'] .task-tile__face { opacity: 0.45; }
+.task-tile[data-status='pending'] .task-tile__ring {
+  width: clamp(52px, 7.5vh, 88px);
+  height: clamp(52px, 7.5vh, 88px);
+}
+/* the next task stays full size even while pending */
+.task-tile--next .task-tile__ring {
+  width: clamp(112px, 16vh, 184px) !important;
+  height: clamp(112px, 16vh, 184px) !important;
+}
 
 /* next task: calm pulsing outline */
 .task-tile--next .task-tile__ring {
@@ -177,7 +187,7 @@ html, body {
   outline-offset: 3px;
   animation: next-pulse 2.4s ease-in-out infinite;
 }
-.task-tile--next .task-tile__face { opacity: 1; }
+.task-tile--next .task-tile__face { opacity: 1 !important; }
 
 @keyframes next-pulse {
   0%, 100% { outline-color: var(--c-next); }
@@ -188,13 +198,21 @@ html, body {
 .task-tile[data-status='running'] .task-tile__face { opacity: 1; }
 .task-tile--over .task-tile__label { color: var(--c-over); }
 
-/* done: check pops in once */
+/* done: check pops in once, the whole tile shrinks so everything fits on screen */
+.task-tile[data-status='done'] .task-tile__ring {
+  width: clamp(44px, 6vh, 64px);
+  height: clamp(44px, 6vh, 64px);
+}
 .task-tile[data-status='done'] .task-tile__check {
+  font-size: 1.6rem;
   opacity: 1;
   transform: scale(1);
   animation: done-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.task-tile[data-status='done'] .task-tile__label { color: var(--c-within); }
+.task-tile[data-status='done'] .task-tile__label {
+  color: var(--c-within);
+  font-size: 0.7rem;
+}
 
 @keyframes done-pop {
   0% { opacity: 0; transform: scale(0.4); }
@@ -243,3 +261,10 @@ html, body {
   color: var(--c-ink-soft);
 }
 .summary__text[data-kind='over'] { color: var(--c-over); }
+
+.summary__smile {
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  animation: done-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

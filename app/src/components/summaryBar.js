@@ -1,9 +1,11 @@
 import { t } from '../i18n/index.js';
 import { getEntry } from '../data/store.js';
+import { iconEl } from './icon.js';
 
 /**
  * Bottom summary bar: one cell per child with progress dots and a
  * neutral within/over time label (green / amber, never red).
+ * When everything is done, a smiley replaces the text (pre-readers!).
  */
 export function createSummaryBar({ children, periodTasks, dayState }) {
   const el = document.createElement('footer');
@@ -28,11 +30,11 @@ export function createSummaryBar({ children, periodTasks, dayState }) {
     cell.appendChild(dots);
     cell.appendChild(text);
     el.appendChild(cell);
-    return { child, dots, text };
+    return { child, cell, dots, text };
   });
 
   function update() {
-    for (const { child, dots, text } of cells) {
+    for (const { child, cell, dots, text } of cells) {
       dots.replaceChildren();
       let done = 0;
       let anyOver = false;
@@ -49,10 +51,15 @@ export function createSummaryBar({ children, periodTasks, dayState }) {
         }
         dots.appendChild(dot);
       }
-      text.textContent = done === periodTasks.length
-        ? t('routine.allDone')
-        : t('routine.progress', { done, total: periodTasks.length });
+      text.textContent = done === periodTasks.length ? '' : t('routine.progress', { done, total: periodTasks.length });
       text.dataset.kind = anyOver ? 'over' : 'within';
+
+      const hasSmile = !!cell.querySelector('.summary__smile');
+      if (done === periodTasks.length && !hasSmile) {
+        cell.appendChild(iconEl({ source: 'openmoji', key: '1F60A' }, 'summary__smile'));
+      } else if (done !== periodTasks.length && hasSmile) {
+        cell.querySelector('.summary__smile').remove();
+      }
     }
   }
 
