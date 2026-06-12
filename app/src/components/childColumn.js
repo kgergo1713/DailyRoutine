@@ -62,12 +62,12 @@ export function createChildColumn({ child, periodId, periodTasks, taskById, dayS
           setEntry(dayState, periodId, child.id, task.id, {
             ...entry, status: 'done', completedAt: now, withinTimeframe: within,
           });
+        } else if (entry.status === 'done') {
+          // Accidental-tap recovery: tapping a done task resets it to pending.
+          setEntry(dayState, periodId, child.id, task.id, {
+            status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null, accumSec: 0,
+          });
         }
-      },
-      onLongPressUndo: () => {
-        setEntry(dayState, periodId, child.id, task.id, {
-          status: 'pending', startedAt: null, completedAt: null, withinTimeframe: null, accumSec: 0,
-        });
       },
     });
 

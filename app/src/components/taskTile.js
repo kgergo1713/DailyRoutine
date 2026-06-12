@@ -1,13 +1,12 @@
 import { iconEl } from './icon.js';
 
-const LONG_PRESS_MS = 600;
-
 /**
  * One task tile: icon + label + pie timer ring.
  * States: pending (dim) -> running (pie countdown) <-> paused (frozen ring) -> done.
+ * Tapping a done task resets it to pending (accidental-tap recovery).
  * Over the time budget the ring turns amber and keeps counting — never red.
  */
-export function createTaskTile({ task, durationSec, getEntry, onTap, onLongPressUndo }) {
+export function createTaskTile({ task, durationSec, getEntry, onTap }) {
   const el = document.createElement('button');
   el.type = 'button';
   el.className = 'task-tile';
@@ -33,32 +32,8 @@ export function createTaskTile({ task, durationSec, getEntry, onTap, onLongPress
   el.appendChild(ring);
   el.appendChild(label);
 
-  // --- interactions: tap to advance, long-press to undo a done task ---
-  let pressTimer = null;
-  let longPressed = false;
-
-  const startPress = () => {
-    longPressed = false;
-    if (getEntry().status === 'done') {
-      pressTimer = setTimeout(() => {
-        longPressed = true;
-        onLongPressUndo();
-      }, LONG_PRESS_MS);
-    }
-  };
-  const endPress = () => {
-    clearTimeout(pressTimer);
-    pressTimer = null;
-  };
-
-  el.addEventListener('pointerdown', startPress);
-  el.addEventListener('pointerup', endPress);
-  el.addEventListener('pointerleave', endPress);
-  el.addEventListener('pointercancel', endPress);
-  el.addEventListener('click', () => {
-    if (longPressed) return; // the long-press already handled it
-    onTap();
-  });
+  // tap to advance the state machine (pending/paused -> running -> done -> pending)
+  el.addEventListener('click', () => onTap());
 
   /** Total active seconds: accumulated past runs + the current run. */
   function elapsedSec(entry, now) {

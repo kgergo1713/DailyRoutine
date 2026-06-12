@@ -20,6 +20,7 @@ The app is designed with neurodivergent (ADHD/autistic) children in mind, for wh
 
 - **Routine view** — one column per child with their marker and name; task tiles with four states (`pending` → `running` ⇄ `paused` → `done`); the next task is highlighted with a calm pulsing outline; completed tasks shrink to small check marks so the whole routine always fits on screen.
 - **One task at a time** — tapping another task automatically pauses the running one (its progress is preserved); tapping a paused task resumes it.
+- **Accidental-tap recovery** — tapping a completed task resets it to not-started, so a stray double-tap is never permanent.
 - **Timer** — a pie-slice ring counts down the time budget; on overrun it turns to a neutral amber and keeps counting. No red, ever.
 - **Summary bar** — per-child progress dots; when everything is done, a smiley appears instead of text (pre-readers!).
 - **Schedules** — multiple periods (weekday morning, evening, weekend…) with per-day and time-window settings; the app picks the active period automatically and shows a calm "nothing to do now" screen otherwise.
