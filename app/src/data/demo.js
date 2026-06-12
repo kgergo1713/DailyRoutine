@@ -32,19 +32,19 @@ export function buildDemoConfig() {
       {
         id: 'weekday-morning',
         name: t('demo.periods.weekdayMorning'),
-        schedule: { type: 'weekly', days: [1, 2, 3, 4, 5], fromTime: '06:00', toTime: '09:00' },
+        schedule: { type: 'weekly', days: [1, 2, 3, 4, 5], fromTime: '05:00', toTime: '12:00' },
         tasks: taskRefs(['wakeup', 'dress', 'breakfast', 'teeth', 'shoes', 'backpack']),
       },
       {
         id: 'evening',
         name: t('demo.periods.evening'),
-        schedule: { type: 'weekly', days: [1, 2, 3, 4, 5, 6, 7], fromTime: '18:30', toTime: '20:30' },
+        schedule: { type: 'weekly', days: [1, 2, 3, 4, 5, 6, 7], fromTime: '12:30', toTime: '20:30' },
         tasks: taskRefs(['tidyup', 'bath', 'teeth', 'pajamas']),
       },
       {
         id: 'weekend-morning',
         name: t('demo.periods.weekendMorning'),
-        schedule: { type: 'weekly', days: [6, 7], fromTime: '07:00', toTime: '10:00' },
+        schedule: { type: 'weekly', days: [6, 7], fromTime: '05:00', toTime: '12:00' },
         tasks: taskRefs(['dress', 'breakfast', 'teeth', 'tidyup']),
       },
     ],
