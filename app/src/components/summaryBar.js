@@ -1,6 +1,7 @@
 import { t } from '../i18n/index.js';
 import { getEntry } from '../data/store.js';
 import { iconEl } from './icon.js';
+import { pickRewardIcon } from '../data/rewardIcons.js';
 
 /**
  * Bottom summary bar: one cell per child with progress dots and a
@@ -56,7 +57,7 @@ export function createSummaryBar({ children, periodId, periodTasks, dayState }) 
 
       const hasSmile = !!cell.querySelector('.summary__smile');
       if (done === periodTasks.length && !hasSmile) {
-        cell.appendChild(iconEl({ source: 'openmoji', key: '1F60A' }, 'summary__smile'));
+        cell.appendChild(iconEl(pickRewardIcon(child.id), 'summary__smile'));
       } else if (done !== periodTasks.length && hasSmile) {
         cell.querySelector('.summary__smile').remove();
       }
