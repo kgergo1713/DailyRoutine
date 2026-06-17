@@ -1,5 +1,5 @@
 /* DailyRoutine service worker — offline-first cache. */
-const VERSION = 'dr-v1';
+const VERSION = 'dr-v2';
 const SHELL_CACHE = `${VERSION}-shell`;
 const ICON_CACHE = `${VERSION}-icons`;
 
