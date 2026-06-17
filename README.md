@@ -22,7 +22,7 @@ The app is designed with neurodivergent (ADHD/autistic) children in mind, for wh
 - **One task at a time** — tapping another task automatically pauses the running one (its progress is preserved); tapping a paused task resumes it.
 - **Accidental-tap recovery** — tapping a completed task resets it to not-started, so a stray double-tap is never permanent.
 - **Timer** — a pie-slice ring counts down the time budget; on overrun it turns to a neutral amber and keeps counting. No red, ever.
-- **Summary bar** — per-child progress dots; when everything is done, a smiley appears instead of text (pre-readers!).
+- **Summary bar** — per-child progress dots; when everything is done, a random cute icon (fruit, animal, star, rainbow…) appears instead of text — a different one for each child every day (pre-readers!).
 - **Schedules** — multiple periods (weekday morning, evening, weekend…) with per-day and time-window settings; the app picks the active period automatically and shows a calm "nothing to do now" screen otherwise.
 - **Configuration view** (parent, ⚙) — children (name, color, OpenMoji marker), per-period task lists (label, icon, time budget, order), period editor with day chips, JSON export/import, demo reset.
 - **Icon picker** — curated popular icons up front, full searchable set (~1500 Phosphor + ~1100 kid-friendly OpenMoji) behind an "All" toggle with infinite scroll.
