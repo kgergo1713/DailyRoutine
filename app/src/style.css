@@ -441,6 +441,23 @@ html, body {
   opacity: 0.7;
 }
 
+/* ===== Gerisoft branding footer ===== */
+.brand-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px auto 8px;
+  opacity: 0.75;
+}
+.brand-footer .wordmark {
+  height: 32px;
+  width: auto;
+  display: none;
+}
+:root[data-theme='light'] .brand-footer .wordmark-light { display: block; }
+:root[data-theme='dark'] .brand-footer .wordmark-dark { display: block; }
+
 .config__about-line {
   margin: 0 0 8px;
   font-size: 0.95rem;

@@ -101,3 +101,33 @@ All data (configuration and completion logs) is stored locally on the device. Th
 - App code: MIT
 - [Phosphor Icons](https://github.com/phosphor-icons/core): MIT
 - [OpenMoji](https://openmoji.org): [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — All emojis designed by OpenMoji – the open-source emoji and icon project.
+
+## Changelog
+
+### v1.4.0
+
+**Modified**
+- Home screen About section now shows the Gerisoft branding footer (theme-aware wordmark logo) next to the version.
+
+### v1.3.0
+
+**New Feature**
+- Random cute reward icon (fruit, animal, star, rainbow…) shown in the summary bar when a child finishes all tasks, different one each day.
+
+### v1.2.0
+
+**New Feature**
+- Accidental-tap recovery: tapping a completed task resets it to pending instead of staying stuck done.
+
+### v1.1.0
+
+**New Feature**
+- Language, theme and fullscreen toggle icon buttons on the main screen.
+- Screen wake lock so the tablet display stays on while the board is visible.
+
+### v1.0.0
+
+**New Feature**
+- Initial release: routine view with task state machine, pie-slice timer, summary bar, configuration view (children, tasks, periods, icon picker), statistics view, HU/EN i18n, light/dark theme, offline-first PWA shell.
+- Version display and About section (feedback email, Revolut support link) in Settings.
+

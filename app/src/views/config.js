@@ -473,7 +473,16 @@ export function createConfigView({ config, onClose }) {
   support.appendChild(rev);
   aboutSec.appendChild(support);
 
-  // --- version footer ---
+  // --- Gerisoft branding + version footer ---
+  const brandBase = import.meta.env.BASE_URL;
+  const brandFooter = document.createElement('footer');
+  brandFooter.className = 'brand-footer';
+  brandFooter.innerHTML = `
+    <img src="${brandBase}gerisoft-wordmark-light.png" alt="Gerisoft" class="wordmark wordmark-light">
+    <img src="${brandBase}gerisoft-wordmark-dark.png" alt="Gerisoft" class="wordmark wordmark-dark">
+  `;
+  body.appendChild(brandFooter);
+
   const version = document.createElement('p');
   version.className = 'config__version';
   version.textContent = `DailyRoutine v${__APP_VERSION__}`;
