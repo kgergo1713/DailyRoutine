@@ -4,7 +4,7 @@ A visual task-tracking tablet app for kids. It eases the "emergency mode" of get
 
 Built as an **offline-first PWA**, designed for Android tablets (installable from the browser, runs full-screen, works without a network connection).
 
-**Live app:** https://kgergo1713.github.io/DailyRoutine/
+**Live app:** https://dailyroutine.geri-soft.com/
 
 ## Core principles
 
@@ -62,7 +62,7 @@ npm run preview   # serve the build locally
 
 ## Installing on an Android tablet
 
-1. Open https://kgergo1713.github.io/DailyRoutine/ in Chrome on the tablet.
+1. Open https://dailyroutine.geri-soft.com/ in Chrome on the tablet.
 2. Choose **Add to Home screen** / **Install app** from the menu.
 3. Launch it from the home screen — it runs full-screen and works offline from then on.
 
