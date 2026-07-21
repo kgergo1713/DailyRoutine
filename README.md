@@ -104,6 +104,11 @@ All data (configuration and completion logs) is stored locally on the device. Th
 
 ## Changelog
 
+### v1.5.0
+
+**Modified**
+- Gerisoft branding footer wordmark is now a clickable link to https://geri-soft.com (opens in a new tab).
+
 ### v1.4.0
 
 **Modified**

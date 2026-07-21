@@ -478,8 +478,10 @@ export function createConfigView({ config, onClose }) {
   const brandFooter = document.createElement('footer');
   brandFooter.className = 'brand-footer';
   brandFooter.innerHTML = `
-    <img src="${brandBase}gerisoft-wordmark-light.png" alt="Gerisoft" class="wordmark wordmark-light">
-    <img src="${brandBase}gerisoft-wordmark-dark.png" alt="Gerisoft" class="wordmark wordmark-dark">
+    <a href="https://geri-soft.com" target="_blank" rel="noopener noreferrer" class="brand-footer-link" aria-label="Gerisoft">
+      <img src="${brandBase}gerisoft-wordmark-light.png" alt="Gerisoft" class="wordmark wordmark-light">
+      <img src="${brandBase}gerisoft-wordmark-dark.png" alt="Gerisoft" class="wordmark wordmark-dark">
+    </a>
   `;
   body.appendChild(brandFooter);
 

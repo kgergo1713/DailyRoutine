@@ -455,6 +455,10 @@ html, body {
   width: auto;
   display: none;
 }
+.brand-footer-link {
+  display: inline-flex;
+  text-decoration: none;
+}
 :root[data-theme='light'] .brand-footer .wordmark-light { display: block; }
 :root[data-theme='dark'] .brand-footer .wordmark-dark { display: block; }
 
