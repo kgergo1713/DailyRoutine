@@ -1,10 +1,18 @@
 /* DailyRoutine service worker — offline-first cache. */
-const VERSION = 'dr-v2';
+const VERSION = 'dr-v3';
 const SHELL_CACHE = `${VERSION}-shell`;
 const ICON_CACHE = `${VERSION}-icons`;
 
 // Resolved relative to the SW scope (works under /DailyRoutine/ on Pages).
-const SHELL = ['.', 'index.html', 'manifest.webmanifest', 'app-icon.svg'];
+const SHELL = [
+  '.',
+  'index.html',
+  'manifest.webmanifest',
+  'app-icon.svg',
+  'app-icon-192.png',
+  'app-icon-512.png',
+  'app-icon-180.png',
+];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
