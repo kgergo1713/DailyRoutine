@@ -93,7 +93,7 @@ All data (configuration and completion logs) is stored locally on the device. Th
 
 ## Feedback & support
 
-- Feedback and feature suggestions: [kgergo1713@gmail.com](mailto:kgergo1713@gmail.com)
+- Feedback and feature suggestions: [info@geri-soft.com](mailto:info@geri-soft.com)
 - If you'd like to support development: Revolut [@kgergo1713](https://revolut.me/kgergo1713)
 
 ## License & attribution

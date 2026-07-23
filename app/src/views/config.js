@@ -457,8 +457,8 @@ export function createConfigView({ config, onClose }) {
   feedback.className = 'config__about-line';
   feedback.textContent = `${t('config.aboutFeedback')}: `;
   const mail = document.createElement('a');
-  mail.href = 'mailto:kgergo1713@gmail.com';
-  mail.textContent = 'kgergo1713@gmail.com';
+  mail.href = 'mailto:info@geri-soft.com';
+  mail.textContent = 'info@geri-soft.com';
   feedback.appendChild(mail);
   aboutSec.appendChild(feedback);
 
